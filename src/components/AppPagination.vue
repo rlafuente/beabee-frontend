@@ -1,17 +1,17 @@
 <template>
   <ul>
-    <li v-for="(page, index) in pages" :key="index">{{ page }}</li>
+    <li
+      v-for="(page, index) in pages"
+      :key="index"
+      :class="{ 'text-secondary': page === currentPage }"
+    >
+      {{ page }}
+    </li>
   </ul>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-
-// three conditions
-// 0. you always have first and last
-// 1. is close to first item if it
-// 2. is closed to last item
-// 3. is middle
 
 const props = defineProps({
   currentPage: {
@@ -24,21 +24,27 @@ const props = defineProps({
   },
 });
 
-const isFirstPage = computed(() => {
-  return props.currentPage === 1;
-});
-const isLastPage = computed(() => {
-  return props.currentPage === totalPages;
-});
-
+// doesn't work properly if currentPage is first + 2 and last - 2
+// and it's not a good solution
 const pages = computed(() => {
   const res = [];
-  // const isCloseToBeginning = props.currentPage < 3;
-  //const isCloseToEnd = props.currentPage < props.totalPages + 3;
   for (let i = 1; i <= props.totalPages; i++) {
-    if (i < 3) {
+    if (i === 1) {
+      res.push(1);
+      continue;
+    }
+    if (i === props.currentPage - 1) {
+      res.push('...');
       res.push(i);
     }
+    if (i === props.currentPage) {
+      res.push(i);
+    }
+    if (i === props.currentPage + 1) {
+      res.push(i);
+      res.push('...');
+    }
+    if (i === props.totalPages) res.push(i);
   }
   return res;
 });

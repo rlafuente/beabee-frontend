@@ -6,6 +6,16 @@
 
     {{ t('homePage.passwordReset') }}
   </AppAlert>
+
+  <AppPagination :total-pages="23" :current-page="4">
+    <template #header-status>
+      <AppBadge>test</AppBadge>
+    </template>
+
+    <template #email="{ item }">
+      <span class="text-secondary">{{ item.email }}</span>
+    </template>
+  </AppPagination>
   <!-- TODO: check page title implementation, after implementing other pages
     you might want to improve it
   -->
@@ -63,7 +73,78 @@
 </template>
 
 <script lang="ts" setup>
+import AppBadge from '../../components/AppBadge.vue';
+import AppPagination from '../../components/AppPagination.vue';
+const headers = [
+  {
+    text: ',',
+    sortable: true,
+    width: '4rem',
+    value: 'status',
+  },
+  {
+    text: 'Name',
+    sortable: false,
+    width: '10rem',
+    value: 'name',
+  },
+  {
+    text: 'Email',
+    sortable: true,
+    value: 'email',
+  },
+  {
+    text: 'Tags',
+    sortable: false,
+    value: 'tags',
+  },
+  {
+    text: 'Newsletter',
+    sortable: false,
+    value: 'newsletter',
+  },
+  {
+    text: 'Amount',
+    sortable: true,
+    value: 'amount',
+  },
+  {
+    text: 'Join date',
+    sortable: false,
+    value: 'joinDate',
+  },
+];
+const data = [
+  {
+    status: 'active',
+    name: 'Anja Blissett',
+    email: 'anja.blissett@bmail.com',
+    tags: 'Programmer',
+    newsletter: 'Yes',
+    amount: 4.23,
+    joinDate: '12 Oct 2020',
+  },
+  {
+    status: 'inactive',
+    name: 'Test 2',
+    email: 'test@bmail.com',
+    tags: 'test',
+    newsletter: 'No',
+    amount: 5.23,
+    joinDate: '10 Oct 2020',
+  },
+  {
+    status: 'active',
+    name: 'Anja Blissett',
+    email: 'anja.blissett@bmail.com',
+    tags: 'Programmer',
+    newsletter: 'No',
+    amount: 3.23,
+    joinDate: '22 Oct 2020',
+  },
+];
 import NoticeContainer from '../notice/NoticeContainer.vue';
+import AppTable from '../../components/table/AppTable.vue';
 import CalloutContainer from '../callout/CalloutContainer.vue';
 import ContributionInfo from '../contribution/ContributionInfo.vue';
 import QuickActions from './QuickActions.vue';
